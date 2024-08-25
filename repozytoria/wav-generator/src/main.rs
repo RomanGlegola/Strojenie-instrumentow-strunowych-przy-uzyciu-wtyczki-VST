@@ -1,4 +1,4 @@
-use std::f32::consts::PI;
+use std::{f32::consts::PI};
 use rand::Rng;
 use hound::{WavWriter, WavSpec, SampleFormat};
 use clap::{Arg, Command};
@@ -106,35 +106,35 @@ pub struct WavGenerator {
 }
 
 impl WavGenerator {
+    /// Generates an audio waveform based on the specified parameters.
+    ///
+    /// This function creates an audio waveform as a vector of samples and generates a filename suffix
+    /// based on the waveform's properties. The waveform is generated according to the specified type
+    /// (sine, square, triangle, or sawtooth) and includes various modifications such as harmonics, noise,
+    /// and filters if specified.
+    ///
+    /// # Returns
+    /// - `(Vec<f32>, String)`: A tuple containing:
+    ///   - `Vec<f32>`: A vector of floating-point samples representing the generated waveform.
+    ///   - `String`: A filename suffix describing the waveform parameters, useful for naming the output file.
+    ///
+    /// # Parameters
+    /// - `&self`: A reference to the `WavGenerator` instance which contains the configuration for generating the waveform.
+    ///
+    /// # Waveform Generation Logic
+    /// 1. **Sample Count Calculation:**
+    ///    - `samples_count` (usize): The total number of samples to generate, calculated based on the sample rate and duration.
+    /// 2. **Sample Generation Loop:**
+    ///    - **Time Calculation:** `t` (f32) represents the current time point in seconds for the sample.
+    ///    - **Initial Sample Calculation:** The sample is initially computed as a sine wave using the given amplitude, frequency, and phase shift.
+    ///    - **Waveform Type Adjustment:**
+    ///      - `"square"`: Converts the sine wave to a square wave by setting the sample to the amplitude or negative amplitude.
+    ///      - `"triangle"`: Converts the sine wave to a triangle wave using the arcsine function.
+    ///      - `"sawtooth"`: Converts the sine wave to a sawtooth wave by linearly increasing the sample value.
+    ///
+    /// # Filename Suffix Generation
+    /// The function also generates a filename suffix based on the waveform type, frequency, amplitude, sample rate, bit depth, duration,
     pub fn generate_waveform(&self) -> (Vec<f32>, String) {
-        /// Generates an audio waveform based on the specified parameters.
-        ///
-        /// This function creates an audio waveform as a vector of samples and generates a filename suffix
-        /// based on the waveform's properties. The waveform is generated according to the specified type
-        /// (sine, square, triangle, or sawtooth) and includes various modifications such as harmonics, noise,
-        /// and filters if specified.
-        ///
-        /// # Returns
-        /// - `(Vec<f32>, String)`: A tuple containing:
-        ///   - `Vec<f32>`: A vector of floating-point samples representing the generated waveform.
-        ///   - `String`: A filename suffix describing the waveform parameters, useful for naming the output file.
-        ///
-        /// # Parameters
-        /// - `&self`: A reference to the `WavGenerator` instance which contains the configuration for generating the waveform.
-        ///
-        /// # Waveform Generation Logic
-        /// 1. **Sample Count Calculation:**
-        ///    - `samples_count` (usize): The total number of samples to generate, calculated based on the sample rate and duration.
-        /// 2. **Sample Generation Loop:**
-        ///    - **Time Calculation:** `t` (f32) represents the current time point in seconds for the sample.
-        ///    - **Initial Sample Calculation:** The sample is initially computed as a sine wave using the given amplitude, frequency, and phase shift.
-        ///    - **Waveform Type Adjustment:**
-        ///      - `"square"`: Converts the sine wave to a square wave by setting the sample to the amplitude or negative amplitude.
-        ///      - `"triangle"`: Converts the sine wave to a triangle wave using the arcsine function.
-        ///      - `"sawtooth"`: Converts the sine wave to a sawtooth wave by linearly increasing the sample value.
-        ///
-        /// # Filename Suffix Generation
-        /// The function also generates a filename suffix based on the waveform type, frequency, amplitude, sample rate, bit depth, duration,
         let samples_count = (self.sample_rate as f32 * self.duration) as usize;
         let mut waveform = Vec::with_capacity(samples_count);
 
@@ -217,41 +217,41 @@ impl WavGenerator {
         (waveform, filename_suffix)
     }
 
+    /// Saves the generated waveform to a WAV file with the specified filename.
+    ///
+    /// This function generates the waveform based on the current parameters of the `WavGenerator` instance,
+    /// and then writes it to a WAV file. The filename provided is used as the base name for the output file,
+    /// with additional details appended based on the waveform properties.
+    ///
+    /// # Parameters
+    /// - `filename: &str`: The base name for the output WAV file. The function appends a suffix to this base name
+    ///   based on the waveform properties (e.g., waveform type, frequency, amplitude).
+    ///
+    /// # Returns
+    /// - `Result<(), Box<dyn std::error::Error>>`: A `Result` type where:
+    ///   - `Ok(())` indicates that the file was successfully saved.
+    ///   - `Err(Box<dyn std::error::Error>)` contains an error message if there was a problem creating or writing to the file.
+    ///
+    /// # Operation
+    /// 1. **Generate Waveform:**
+    ///    - The function calls `generate_waveform()` to create the audio data and derive the filename suffix based on the waveform properties.
+    ///
+    /// 2. **Construct Final Filename:**
+    ///    - The base filename provided by the user is combined with the generated suffix to form the full output filename (with `.wav` extension).
+    ///
+    /// 3. **Define WAV Specifications:**
+    ///    - A `WavSpec` object is created to specify the number of channels, sample rate, bit depth, and sample format for the WAV file.
+    ///
+    /// 4. **Create WAV Writer:**
+    ///    - A `WavWriter` is instantiated with the final filename and specifications, enabling writing samples to the WAV file.
+    ///
+    /// 5. **Write Samples:**
+    ///    - The waveform samples are converted from floating-point values to 16-bit integers and written to the WAV file using the `WavWriter`.
+    ///
+    /// 6. **Handle Errors:**
+    ///    - If any errors occur during file creation or writing, they are returned as an `Err` variant of the `Result`.
+    ///
     pub fn save_to_wav(&self, filename: &str) -> Result<(), Box<dyn std::error::Error>> {
-        /// Saves the generated waveform to a WAV file with the specified filename.
-        ///
-        /// This function generates the waveform based on the current parameters of the `WavGenerator` instance,
-        /// and then writes it to a WAV file. The filename provided is used as the base name for the output file,
-        /// with additional details appended based on the waveform properties.
-        ///
-        /// # Parameters
-        /// - `filename: &str`: The base name for the output WAV file. The function appends a suffix to this base name
-        ///   based on the waveform properties (e.g., waveform type, frequency, amplitude).
-        ///
-        /// # Returns
-        /// - `Result<(), Box<dyn std::error::Error>>`: A `Result` type where:
-        ///   - `Ok(())` indicates that the file was successfully saved.
-        ///   - `Err(Box<dyn std::error::Error>)` contains an error message if there was a problem creating or writing to the file.
-        ///
-        /// # Operation
-        /// 1. **Generate Waveform:**
-        ///    - The function calls `generate_waveform()` to create the audio data and derive the filename suffix based on the waveform properties.
-        ///
-        /// 2. **Construct Final Filename:**
-        ///    - The base filename provided by the user is combined with the generated suffix to form the full output filename (with `.wav` extension).
-        ///
-        /// 3. **Define WAV Specifications:**
-        ///    - A `WavSpec` object is created to specify the number of channels, sample rate, bit depth, and sample format for the WAV file.
-        ///
-        /// 4. **Create WAV Writer:**
-        ///    - A `WavWriter` is instantiated with the final filename and specifications, enabling writing samples to the WAV file.
-        ///
-        /// 5. **Write Samples:**
-        ///    - The waveform samples are converted from floating-point values to 16-bit integers and written to the WAV file using the `WavWriter`.
-        ///
-        /// 6. **Handle Errors:**
-        ///    - If any errors occur during file creation or writing, they are returned as an `Err` variant of the `Result`.
-        ///
         let (waveform, filename_suffix) = self.generate_waveform();
         let final_filename = format!("{}{}.wav", filename, filename_suffix);
 
@@ -272,52 +272,52 @@ impl WavGenerator {
         Ok(())
     }
 
+    /// Applies a DC offset to the waveform samples.
+    ///
+    /// This function modifies the waveform by adding a constant DC offset value to each sample. 
+    /// This can be used to shift the waveform vertically in the amplitude domain, which is useful 
+    /// for correcting or adjusting the baseline level of the signal.
+    ///
+    /// # Parameters
+    /// - `waveform: &mut [f32]`: A mutable slice of floating-point samples representing the waveform.
+    ///   Each sample in this slice will be increased by the value of `self.dc_offset`.
+    ///
+    /// # Operation
+    /// The function iterates over each sample in the `waveform` slice and adds the `dc_offset` value
+    /// to it. This operation is performed in-place, meaning the original waveform is directly modified.
     pub fn apply_dc_offset(&self, waveform: &mut [f32]) {
-        /// Applies a DC offset to the waveform samples.
-        ///
-        /// This function modifies the waveform by adding a constant DC offset value to each sample. 
-        /// This can be used to shift the waveform vertically in the amplitude domain, which is useful 
-        /// for correcting or adjusting the baseline level of the signal.
-        ///
-        /// # Parameters
-        /// - `waveform: &mut [f32]`: A mutable slice of floating-point samples representing the waveform.
-        ///   Each sample in this slice will be increased by the value of `self.dc_offset`.
-        ///
-        /// # Operation
-        /// The function iterates over each sample in the `waveform` slice and adds the `dc_offset` value
-        /// to it. This operation is performed in-place, meaning the original waveform is directly modified.
         for sample in waveform.iter_mut() {
             *sample += self.dc_offset;
         }
     }
 
+    /// Applies a phase shift to the waveform.
+    ///
+    /// This function adjusts the phase of the waveform by the specified phase shift.
+    /// 
+    /// # Arguments
+    /// - `waveform` (&mut [f32]): A mutable slice of the waveform samples.
+    ///
+    /// **Note**: The phase shift is already applied in `generate_waveform`, but this method can be used if further adjustments are needed.
     pub fn apply_phase_shift(&self, _waveform: &mut [f32]) {
-        /// Applies a phase shift to the waveform.
-        ///
-        /// This function adjusts the phase of the waveform by the specified phase shift.
-        /// 
-        /// # Arguments
-        /// - `waveform` (&mut [f32]): A mutable slice of the waveform samples.
-        ///
-        /// **Note**: The phase shift is already applied in `generate_waveform`, but this method can be used if further adjustments are needed.
     }
 
+    /// Adds harmonic components to the waveform.
+    ///
+    /// This function enhances the waveform by adding harmonic frequencies to it. Each harmonic is defined
+    /// by its frequency and amplitude. Harmonics are integer multiples of the fundamental frequency and
+    /// contribute to the richness and complexity of the sound.
+    ///
+    /// # Parameters
+    /// - `waveform: &mut [f32]`: A mutable slice of floating-point samples representing the waveform. 
+    ///   The function modifies this waveform by adding harmonic components to each sample.
+    ///
+    /// # Operation
+    /// If `self.harmonics` is `Some`, the function iterates over each harmonic tuple in the list. For each 
+    /// harmonic, it calculates its contribution to the waveform by adding a sine wave of the harmonic frequency 
+    /// scaled by the harmonic amplitude. This is done for each sample in the `waveform` slice, and the waveform 
+    /// is modified in-place.
     pub fn add_harmonics(&self, waveform: &mut [f32]) {
-        /// Adds harmonic components to the waveform.
-        ///
-        /// This function enhances the waveform by adding harmonic frequencies to it. Each harmonic is defined
-        /// by its frequency and amplitude. Harmonics are integer multiples of the fundamental frequency and
-        /// contribute to the richness and complexity of the sound.
-        ///
-        /// # Parameters
-        /// - `waveform: &mut [f32]`: A mutable slice of floating-point samples representing the waveform. 
-        ///   The function modifies this waveform by adding harmonic components to each sample.
-        ///
-        /// # Operation
-        /// If `self.harmonics` is `Some`, the function iterates over each harmonic tuple in the list. For each 
-        /// harmonic, it calculates its contribution to the waveform by adding a sine wave of the harmonic frequency 
-        /// scaled by the harmonic amplitude. This is done for each sample in the `waveform` slice, and the waveform 
-        /// is modified in-place.
         if let Some(ref harmonics) = self.harmonics {
             for &(harmonic_freq, harmonic_amp) in harmonics.iter() {
                 for i in 0..waveform.len() {
@@ -328,28 +328,28 @@ impl WavGenerator {
         }
     }
 
+    /// Adds noise to the waveform.
+    ///
+    /// This function introduces noise to the waveform based on the specified `noise_type`. It modifies each 
+    /// sample in the waveform by adding a noise component, which can be of various types:
+    /// 
+    /// - **White Noise**: Random noise with equal intensity at different frequencies.
+    /// - **Pink Noise**: Noise with frequency characteristics that decrease in power as frequency increases.
+    ///
+    /// The amount of noise added is controlled by `self.noise_volume`, which scales the noise contribution.
+    ///
+    /// # Parameters
+    /// - `waveform: &mut [f32]`: A mutable slice of floating-point samples representing the waveform. 
+    ///   The function will modify this waveform by adding noise to each sample.
+    ///
+    /// # Operation
+    /// The function checks the `noise_type` specified in `self.noise_type`. Based on the type:
+    /// - For `"white"` noise, it generates random values in the range [-1.0, 1.0] and scales them by `self.noise_volume`.
+    /// - For `"pink"` noise, it generates noise using a pink noise algorithm and scales it by `self.noise_volume`.
+    /// - If the `noise_type` is not recognized, no noise is added.
+    /// 
+    /// The noise is added to each sample in the `waveform` slice, modifying it in-place.
     pub fn add_noise(&self, waveform: &mut [f32]) {
-        /// Adds noise to the waveform.
-        ///
-        /// This function introduces noise to the waveform based on the specified `noise_type`. It modifies each 
-        /// sample in the waveform by adding a noise component, which can be of various types:
-        /// 
-        /// - **White Noise**: Random noise with equal intensity at different frequencies.
-        /// - **Pink Noise**: Noise with frequency characteristics that decrease in power as frequency increases.
-        ///
-        /// The amount of noise added is controlled by `self.noise_volume`, which scales the noise contribution.
-        ///
-        /// # Parameters
-        /// - `waveform: &mut [f32]`: A mutable slice of floating-point samples representing the waveform. 
-        ///   The function will modify this waveform by adding noise to each sample.
-        ///
-        /// # Operation
-        /// The function checks the `noise_type` specified in `self.noise_type`. Based on the type:
-        /// - For `"white"` noise, it generates random values in the range [-1.0, 1.0] and scales them by `self.noise_volume`.
-        /// - For `"pink"` noise, it generates noise using a pink noise algorithm and scales it by `self.noise_volume`.
-        /// - If the `noise_type` is not recognized, no noise is added.
-        /// 
-        /// The noise is added to each sample in the `waveform` slice, modifying it in-place.
         if let Some(ref noise_type) = self.noise_type {
             let mut rng = rand::thread_rng();
             for sample in waveform.iter_mut() {
@@ -363,30 +363,30 @@ impl WavGenerator {
         }
     }
 
+    /// Generates a pink noise sample using a Voss-McCartney algorithm.
+    ///
+    /// This function uses a pseudo-random number generator to produce a sample of pink noise. Pink noise 
+    /// is a type of noise where each octave has equal energy, resulting in a frequency spectrum that decreases 
+    /// in power as frequency increases. This is different from white noise, which has equal intensity across all frequencies.
+    ///
+    /// The implementation uses a static array of random values and a specific algorithm to generate pink noise. 
+    /// The `unsafe` block is used to manage the static mutable state required for generating noise.
+    ///
+    /// # Returns
+    /// - `f32`: A single sample of pink noise as a floating-point value. This value is in the range of [-1.0, 1.0].
+    ///
+    /// # Operation
+    /// - Initializes random values if they haven't been set before (`INDEX == 0`).
+    /// - Uses a Voss-McCartney algorithm to generate pink noise. This involves updating an array of random values 
+    ///   and computing the average value to produce the final noise sample.
+    /// - Updates static variables (`INDEX` and `LAST_OUTPUT`) to maintain state across function calls.
+    ///
+    /// # Safety
+    /// - The function uses `unsafe` blocks to manage static mutable state. Ensure that no other parts of the code 
+    ///   are concurrently accessing or modifying these static variables to avoid undefined behavior.
+    /// - Static mutable variables (`RANDOM_VALUES`, `INDEX`, `LAST_OUTPUT`) are shared across function calls, so 
+    ///   careful consideration is required to maintain thread safety and avoid potential issues.
     fn generate_pink_noise(&self) -> f32 {
-        /// Generates a pink noise sample using a Voss-McCartney algorithm.
-        ///
-        /// This function uses a pseudo-random number generator to produce a sample of pink noise. Pink noise 
-        /// is a type of noise where each octave has equal energy, resulting in a frequency spectrum that decreases 
-        /// in power as frequency increases. This is different from white noise, which has equal intensity across all frequencies.
-        ///
-        /// The implementation uses a static array of random values and a specific algorithm to generate pink noise. 
-        /// The `unsafe` block is used to manage the static mutable state required for generating noise.
-        ///
-        /// # Returns
-        /// - `f32`: A single sample of pink noise as a floating-point value. This value is in the range of [-1.0, 1.0].
-        ///
-        /// # Operation
-        /// - Initializes random values if they haven't been set before (`INDEX == 0`).
-        /// - Uses a Voss-McCartney algorithm to generate pink noise. This involves updating an array of random values 
-        ///   and computing the average value to produce the final noise sample.
-        /// - Updates static variables (`INDEX` and `LAST_OUTPUT`) to maintain state across function calls.
-        ///
-        /// # Safety
-        /// - The function uses `unsafe` blocks to manage static mutable state. Ensure that no other parts of the code 
-        ///   are concurrently accessing or modifying these static variables to avoid undefined behavior.
-        /// - Static mutable variables (`RANDOM_VALUES`, `INDEX`, `LAST_OUTPUT`) are shared across function calls, so 
-        ///   careful consideration is required to maintain thread safety and avoid potential issues.
         const NUM_RANDOM_STREAMS: usize = 16;
         static mut RANDOM_VALUES: [f32; NUM_RANDOM_STREAMS] = [0.0; NUM_RANDOM_STREAMS];
         static mut INDEX: usize = 0;
@@ -417,35 +417,35 @@ impl WavGenerator {
         }
     }
 
+    /// Applies a low-pass filter to the waveform.
+    ///
+    /// A low-pass filter allows frequencies below the cutoff frequency to pass through while attenuating
+    /// higher frequencies. This filter is implemented using a simple first-order RC (Resistor-Capacitor) filter,
+    /// which is suitable for basic audio processing applications.
+    ///
+    /// # Parameters
+    /// - `&self`: A reference to the `WavGenerator` instance.
+    /// - `waveform: &mut [f32]`: A mutable reference to an array of `f32` values representing the audio waveform samples. 
+    ///   The filter is applied in place, directly modifying the waveform data.
+    ///
+    /// # Filter Logic
+    /// - `cutoff_freq` (f32): The cutoff frequency of the low-pass filter, specified in Hertz (Hz). Frequencies above
+    ///   this value are attenuated.
+    /// - `dt` (f32): The time between samples, calculated as the inverse of the sample rate.
+    /// - `rc` (f32): The time constant of the RC filter, calculated as the inverse of `2 * PI * cutoff_freq`.
+    /// - `alpha` (f32): The smoothing factor for the filter, calculated as `dt / (rc + dt)`.
+    ///
+    /// # Operation
+    /// The filter iterates over each sample in the waveform. For each sample, it applies the following formula:
+    /// 
+    /// `sample[i] = alpha * (sample[i] + previous_sample)`, where `previous_sample` is the last processed sample.
+    /// 
+    /// This formula blends the current sample with the previous one to attenuate high frequencies.
+    ///
+    /// # Safety
+    /// This function assumes that the waveform has at least one sample. The first sample is used as the initial
+    /// `previous_sample` and is not modified.
     pub fn apply_low_pass_filter(&self, waveform: &mut [f32]) {
-        /// Applies a low-pass filter to the waveform.
-        ///
-        /// A low-pass filter allows frequencies below the cutoff frequency to pass through while attenuating
-        /// higher frequencies. This filter is implemented using a simple first-order RC (Resistor-Capacitor) filter,
-        /// which is suitable for basic audio processing applications.
-        ///
-        /// # Parameters
-        /// - `&self`: A reference to the `WavGenerator` instance.
-        /// - `waveform: &mut [f32]`: A mutable reference to an array of `f32` values representing the audio waveform samples. 
-        ///   The filter is applied in place, directly modifying the waveform data.
-        ///
-        /// # Filter Logic
-        /// - `cutoff_freq` (f32): The cutoff frequency of the low-pass filter, specified in Hertz (Hz). Frequencies above
-        ///   this value are attenuated.
-        /// - `dt` (f32): The time between samples, calculated as the inverse of the sample rate.
-        /// - `rc` (f32): The time constant of the RC filter, calculated as the inverse of `2 * PI * cutoff_freq`.
-        /// - `alpha` (f32): The smoothing factor for the filter, calculated as `dt / (rc + dt)`.
-        ///
-        /// # Operation
-        /// The filter iterates over each sample in the waveform. For each sample, it applies the following formula:
-        /// 
-        /// `sample[i] = alpha * (sample[i] + previous_sample)`, where `previous_sample` is the last processed sample.
-        /// 
-        /// This formula blends the current sample with the previous one to attenuate high frequencies.
-        ///
-        /// # Safety
-        /// This function assumes that the waveform has at least one sample. The first sample is used as the initial
-        /// `previous_sample` and is not modified.
         if let Some(cutoff_freq) = self.low_pass_filter {
             let dt = 1.0 / self.sample_rate as f32;
             let rc = 1.0 / (2.0 * PI * cutoff_freq);
@@ -463,37 +463,37 @@ impl WavGenerator {
         }
     }
 
+    /// Applies a high-pass filter to the waveform.
+    ///
+    /// A high-pass filter allows frequencies above the cutoff frequency to pass through while attenuating
+    /// lower frequencies. This is achieved using a simple first-order RC (Resistor-Capacitor) filter,
+    /// which is often used for basic audio signal processing.
+    ///
+    /// # Parameters
+    /// - `&self`: A reference to the `WavGenerator` instance.
+    /// - `waveform: &mut [f32]`: A mutable reference to an array of `f32` values representing the audio waveform samples.
+    ///   The filter modifies the waveform data in place.
+    ///
+    /// # Filter Logic
+    /// - `cutoff_freq` (f32): The cutoff frequency of the high-pass filter, specified in Hertz (Hz). Frequencies below
+    ///   this value are attenuated.
+    /// - `dt` (f32): The time interval between samples, calculated as the inverse of the sample rate.
+    /// - `rc` (f32): The time constant of the RC filter, calculated as the inverse of `2 * PI * cutoff_freq`.
+    /// - `alpha` (f32): The smoothing factor for the filter, calculated as `rc / (rc + dt)`.
+    ///
+    /// # Operation
+    /// The filter iterates over each sample in the waveform. For each sample, it applies the following formula:
+    ///
+    /// `waveform[i] = alpha * (waveform[i - 1] + current_sample - previous_sample)`, 
+    /// where `current_sample` is the current sample value, `previous_sample` is the last processed sample, 
+    /// and `waveform[i - 1]` is the previously filtered sample.
+    ///
+    /// This operation effectively attenuates the low frequencies, allowing the higher frequencies to pass.
+    ///
+    /// # Safety
+    /// This function assumes that the waveform has at least one sample. The first sample is used as the initial
+    /// `previous_sample` and is set directly in the filtered waveform.
     pub fn apply_high_pass_filter(&self, waveform: &mut [f32]) {
-        /// Applies a high-pass filter to the waveform.
-        ///
-        /// A high-pass filter allows frequencies above the cutoff frequency to pass through while attenuating
-        /// lower frequencies. This is achieved using a simple first-order RC (Resistor-Capacitor) filter,
-        /// which is often used for basic audio signal processing.
-        ///
-        /// # Parameters
-        /// - `&self`: A reference to the `WavGenerator` instance.
-        /// - `waveform: &mut [f32]`: A mutable reference to an array of `f32` values representing the audio waveform samples.
-        ///   The filter modifies the waveform data in place.
-        ///
-        /// # Filter Logic
-        /// - `cutoff_freq` (f32): The cutoff frequency of the high-pass filter, specified in Hertz (Hz). Frequencies below
-        ///   this value are attenuated.
-        /// - `dt` (f32): The time interval between samples, calculated as the inverse of the sample rate.
-        /// - `rc` (f32): The time constant of the RC filter, calculated as the inverse of `2 * PI * cutoff_freq`.
-        /// - `alpha` (f32): The smoothing factor for the filter, calculated as `rc / (rc + dt)`.
-        ///
-        /// # Operation
-        /// The filter iterates over each sample in the waveform. For each sample, it applies the following formula:
-        ///
-        /// `waveform[i] = alpha * (waveform[i - 1] + current_sample - previous_sample)`, 
-        /// where `current_sample` is the current sample value, `previous_sample` is the last processed sample, 
-        /// and `waveform[i - 1]` is the previously filtered sample.
-        ///
-        /// This operation effectively attenuates the low frequencies, allowing the higher frequencies to pass.
-        ///
-        /// # Safety
-        /// This function assumes that the waveform has at least one sample. The first sample is used as the initial
-        /// `previous_sample` and is set directly in the filtered waveform.
         if let Some(cutoff_freq) = self.high_pass_filter {
             let dt = 1.0 / self.sample_rate as f32;
             let rc = 1.0 / (2.0 * PI * cutoff_freq);
@@ -513,36 +513,36 @@ impl WavGenerator {
         }
     }
 
+    /// Applies fade-in and fade-out effects to the waveform.
+    ///
+    /// This function adjusts the amplitude of the waveform over time to create fade-in and fade-out effects.
+    /// A fade-in gradually increases the amplitude from zero to full volume over a specified duration at
+    /// the beginning of the waveform. Conversely, a fade-out gradually decreases the amplitude from full
+    /// volume to zero over a specified duration at the end of the waveform.
+    ///
+    /// # Parameters
+    /// - `&self`: A reference to the `WavGenerator` instance.
+    /// - `waveform: &mut [f32]`: A mutable reference to an array of `f32` values representing the audio waveform samples.
+    ///   The function modifies the waveform data in place by applying the fade effects.
+    ///
+    /// # Fade Logic
+    /// - `fade_in_samples` (usize): The number of samples over which the fade-in effect is applied, calculated as
+    ///   `self.sample_rate * self.fade_in`.
+    /// - `fade_out_samples` (usize): The number of samples over which the fade-out effect is applied, calculated as
+    ///   `self.sample_rate * self.fade_out`.
+    /// - `total_samples` (usize): The total number of samples in the waveform, derived from the length of the `waveform` array.
+    ///
+    /// # Operation
+    /// 1. **Fade-in:**
+    ///    - The function iterates over the first `fade_in_samples` samples of the waveform.
+    ///    - For each sample `i`, a scaling factor is computed as `i / fade_in_samples`.
+    ///    - The sample's amplitude is then multiplied by this factor, gradually increasing it from `0.0` to `1.0`.
+    ///
+    /// 2. **Fade-out:**
+    ///    - The function iterates over the last `fade_out_samples` samples of the waveform.
+    ///    - For each sample `i`, an inverse scaling factor is computed as `1.0 - (i / fade_out_samples)`.
+    ///    - The sample's amplitude is then multiplied by this factor, gradually decreasing it from `1.0` to `0.0`.
     pub fn apply_fades(&self, waveform: &mut [f32]) {
-        /// Applies fade-in and fade-out effects to the waveform.
-        ///
-        /// This function adjusts the amplitude of the waveform over time to create fade-in and fade-out effects.
-        /// A fade-in gradually increases the amplitude from zero to full volume over a specified duration at
-        /// the beginning of the waveform. Conversely, a fade-out gradually decreases the amplitude from full
-        /// volume to zero over a specified duration at the end of the waveform.
-        ///
-        /// # Parameters
-        /// - `&self`: A reference to the `WavGenerator` instance.
-        /// - `waveform: &mut [f32]`: A mutable reference to an array of `f32` values representing the audio waveform samples.
-        ///   The function modifies the waveform data in place by applying the fade effects.
-        ///
-        /// # Fade Logic
-        /// - `fade_in_samples` (usize): The number of samples over which the fade-in effect is applied, calculated as
-        ///   `self.sample_rate * self.fade_in`.
-        /// - `fade_out_samples` (usize): The number of samples over which the fade-out effect is applied, calculated as
-        ///   `self.sample_rate * self.fade_out`.
-        /// - `total_samples` (usize): The total number of samples in the waveform, derived from the length of the `waveform` array.
-        ///
-        /// # Operation
-        /// 1. **Fade-in:**
-        ///    - The function iterates over the first `fade_in_samples` samples of the waveform.
-        ///    - For each sample `i`, a scaling factor is computed as `i / fade_in_samples`.
-        ///    - The sample's amplitude is then multiplied by this factor, gradually increasing it from `0.0` to `1.0`.
-        ///
-        /// 2. **Fade-out:**
-        ///    - The function iterates over the last `fade_out_samples` samples of the waveform.
-        ///    - For each sample `i`, an inverse scaling factor is computed as `1.0 - (i / fade_out_samples)`.
-        ///    - The sample's amplitude is then multiplied by this factor, gradually decreasing it from `1.0` to `0.0`.
         let fade_in_samples = (self.sample_rate as f32 * self.fade_in) as usize;
         let fade_out_samples = (self.sample_rate as f32 * self.fade_out) as usize;
         let total_samples = waveform.len();
@@ -559,31 +559,31 @@ impl WavGenerator {
         }
     }
 
+    /// Applies a simple reverb effect to the waveform.
+    ///
+    /// This function simulates a reverb effect by adding a delayed and decayed version of the waveform to itself.
+    /// Reverb gives the impression of space and depth in audio by mimicking the reflections of sound waves in an environment.
+    ///
+    /// # Parameters
+    /// - `&self`: A reference to the `WavGenerator` instance.
+    /// - `waveform: &mut [f32]`: A mutable reference to an array of `f32` values representing the audio waveform samples.
+    ///   The function modifies this array in place to apply the reverb effect.
+    ///
+    /// # Reverb Logic
+    /// - `delay_samples` (usize): The number of samples by which the waveform is delayed to create the echo effect.
+    ///   This is calculated as `self.sample_rate * 0.1`, corresponding to a delay of 100 milliseconds.
+    /// - `decay_factor` (f32): The factor by which the delayed waveform is attenuated before being added back to the original waveform.
+    ///   This is set by `self.reverb_amount`.
+    ///
+    /// # Operation
+    /// 1. **Delay Calculation:**
+    ///    - The function calculates the delay in samples based on the sample rate and a fixed delay time of 0.1 seconds (100 milliseconds).
+    ///
+    /// 2. **Apply Reverb:**
+    ///    - The function iterates over the waveform starting from the `delay_samples` index.
+    ///    - For each sample `i`, the function adds a scaled (by `decay_factor`) version of the sample at `i - delay_samples` to the current sample.
+    ///    - This process simulates the echoing effect characteristic of reverb.
     pub fn apply_reverb(&self, waveform: &mut [f32]) {
-        /// Applies a simple reverb effect to the waveform.
-        ///
-        /// This function simulates a reverb effect by adding a delayed and decayed version of the waveform to itself.
-        /// Reverb gives the impression of space and depth in audio by mimicking the reflections of sound waves in an environment.
-        ///
-        /// # Parameters
-        /// - `&self`: A reference to the `WavGenerator` instance.
-        /// - `waveform: &mut [f32]`: A mutable reference to an array of `f32` values representing the audio waveform samples.
-        ///   The function modifies this array in place to apply the reverb effect.
-        ///
-        /// # Reverb Logic
-        /// - `delay_samples` (usize): The number of samples by which the waveform is delayed to create the echo effect.
-        ///   This is calculated as `self.sample_rate * 0.1`, corresponding to a delay of 100 milliseconds.
-        /// - `decay_factor` (f32): The factor by which the delayed waveform is attenuated before being added back to the original waveform.
-        ///   This is set by `self.reverb_amount`.
-        ///
-        /// # Operation
-        /// 1. **Delay Calculation:**
-        ///    - The function calculates the delay in samples based on the sample rate and a fixed delay time of 0.1 seconds (100 milliseconds).
-        ///
-        /// 2. **Apply Reverb:**
-        ///    - The function iterates over the waveform starting from the `delay_samples` index.
-        ///    - For each sample `i`, the function adds a scaled (by `decay_factor`) version of the sample at `i - delay_samples` to the current sample.
-        ///    - This process simulates the echoing effect characteristic of reverb.
         let delay_samples = (self.sample_rate as f32 * 0.1) as usize;
         let decay_factor = self.reverb_amount;
 
@@ -592,35 +592,35 @@ impl WavGenerator {
         }
     }
 
+    /// Normalizes the amplitude of the audio waveform to the maximum possible value.
+    ///
+    /// This function adjusts the amplitude of the audio waveform so that the highest peak reaches the maximum value of 1.0.
+    /// Normalization is useful for maximizing the signal strength without distortion, ensuring that the waveform uses the full dynamic range.
+    ///
+    /// # Parameters
+    /// - `&self`: A reference to the `WavGenerator` instance.
+    /// - `waveform: &mut [f32]`: A mutable reference to an array of `f32` values representing the audio waveform samples.
+    ///   The function modifies this array in place to apply normalization.
+    ///
+    /// # Normalization Logic
+    /// - `max_amplitude` (f32): The maximum absolute amplitude found in the waveform. This value is used to calculate the normalization factor.
+    /// - `normalization_factor` (f32): The factor by which each sample is multiplied to scale the waveform such that the highest peak equals 1.0.
+    ///   This is calculated as `1.0 / max_amplitude`.
+    ///
+    /// # Operation
+    /// 1. **Find Maximum Amplitude:**
+    ///    - The function iterates through the waveform to find the maximum amplitude (`max_amplitude`).
+    ///    - This value represents the highest peak in the waveform and is used to determine how much the entire waveform needs to be scaled.
+    ///
+    /// 2. **Calculate Normalization Factor:**
+    ///    - The normalization factor is computed as `1.0 / max_amplitude`. This ensures that the highest peak in the waveform reaches 1.0 after scaling.
+    ///
+    /// 3. **Apply Normalization:**
+    ///    - The function iterates through the waveform again, multiplying each sample by the normalization factor to scale the waveform.
+    ///
+    /// # Panics
+    /// - The function does not currently handle the edge case of an empty waveform, which would cause the normalization logic to panic.
     pub fn normalize_channels(&self, waveform: &mut [f32]) {
-        /// Normalizes the amplitude of the audio waveform to the maximum possible value.
-        ///
-        /// This function adjusts the amplitude of the audio waveform so that the highest peak reaches the maximum value of 1.0.
-        /// Normalization is useful for maximizing the signal strength without distortion, ensuring that the waveform uses the full dynamic range.
-        ///
-        /// # Parameters
-        /// - `&self`: A reference to the `WavGenerator` instance.
-        /// - `waveform: &mut [f32]`: A mutable reference to an array of `f32` values representing the audio waveform samples.
-        ///   The function modifies this array in place to apply normalization.
-        ///
-        /// # Normalization Logic
-        /// - `max_amplitude` (f32): The maximum absolute amplitude found in the waveform. This value is used to calculate the normalization factor.
-        /// - `normalization_factor` (f32): The factor by which each sample is multiplied to scale the waveform such that the highest peak equals 1.0.
-        ///   This is calculated as `1.0 / max_amplitude`.
-        ///
-        /// # Operation
-        /// 1. **Find Maximum Amplitude:**
-        ///    - The function iterates through the waveform to find the maximum amplitude (`max_amplitude`).
-        ///    - This value represents the highest peak in the waveform and is used to determine how much the entire waveform needs to be scaled.
-        ///
-        /// 2. **Calculate Normalization Factor:**
-        ///    - The normalization factor is computed as `1.0 / max_amplitude`. This ensures that the highest peak in the waveform reaches 1.0 after scaling.
-        ///
-        /// 3. **Apply Normalization:**
-        ///    - The function iterates through the waveform again, multiplying each sample by the normalization factor to scale the waveform.
-        ///
-        /// # Panics
-        /// - The function does not currently handle the edge case of an empty waveform, which would cause the normalization logic to panic.
         let max_amplitude = waveform.iter().cloned().fold(0.0, f32::max);
         let normalization_factor = 1.0 / max_amplitude;
 
@@ -630,7 +630,23 @@ impl WavGenerator {
     }
 }
 
-/// Przykład użycia
+fn parse_harmonics(s: &str) -> Vec<(f32, f32)> {
+    s.split(';')
+        .filter_map(|pair| {
+            let mut parts = pair.split(',');
+            let freq = parts.next()?.parse().ok()?;
+            let amp = parts.next()?.parse().ok()?;
+            Some((freq, amp))
+        })
+        .collect()
+}
+
+fn parse_f32_vec(s: &str) -> Vec<f32> {
+    s.split(',')
+        .filter_map(|num| num.parse::<f32>().ok())
+        .collect()
+}
+
 fn main() {
     let matches = Command::new("WavGenerator")
         .version("1.0")
@@ -666,6 +682,66 @@ fn main() {
             .value_name("AMPLITUDE")
             .help("Amplitude of the waveform")
             .default_value("0.5"))
+        .arg(Arg::new("dc_offset")
+            .long("dc_offset")
+            .value_name("DC_OFFSET")
+            .help("DC offset of the waveform")
+            .default_value("0.0"))
+        .arg(Arg::new("phase_shift")
+            .long("phase_shift")
+            .value_name("PHASE_SHIFT")
+            .help("Phase shift of the waveform")
+            .default_value("0.0"))
+        .arg(Arg::new("harmonics")
+            .long("harmonics")
+            .value_name("HARMONICS")
+            .help("Harmonics in the form freq,amp;freq,amp")
+            .default_value(""))
+        .arg(Arg::new("noise_type")
+            .long("noise_type")
+            .value_name("NOISE")
+            .help("Type of noise (e.g., white, pink)")
+            .default_value(""))
+        .arg(Arg::new("noise_volume")
+            .long("noise_volume")
+            .value_name("VOLUME")
+            .help("Volume of the noise")
+            .default_value("0.0"))
+        .arg(Arg::new("low_pass_filter")
+            .long("low_pass_filter")
+            .value_name("LOW_PASS")
+            .help("Low-pass filter cutoff frequency")
+            .default_value("0.0"))
+        .arg(Arg::new("high_pass_filter")
+            .long("high_pass_filter")
+            .value_name("HIGH_PASS")
+            .help("High-pass filter cutoff frequency")
+            .default_value("0.0"))
+        .arg(Arg::new("fade_in")
+            .long("fade_in")
+            .value_name("FADE_IN")
+            .help("Fade-in duration in seconds")
+            .default_value("0.0"))
+        .arg(Arg::new("fade_out")
+            .long("fade_out")
+            .value_name("FADE_OUT")
+            .help("Fade-out duration in seconds")
+            .default_value("0.0"))
+        .arg(Arg::new("reverb_amount")
+            .long("reverb_amount")
+            .value_name("REVERB")
+            .help("Amount of reverb")
+            .default_value("0.0"))
+        .arg(Arg::new("num_channels")
+            .long("num_channels")
+            .value_name("CHANNELS")
+            .help("Number of audio channels")
+            .default_value("1"))
+        .arg(Arg::new("channel_volumes")
+            .long("channel_volumes")
+            .value_name("VOLUMES")
+            .help("Comma-separated list of volumes for each channel")
+            .default_value("1.0"))
         .arg(Arg::new("output_filename")
             .long("output_filename")
             .value_name("FILENAME")
@@ -675,33 +751,49 @@ fn main() {
 
     // Read argument values
     let waveform_type = matches.get_one::<String>("waveform_type").unwrap();
-    let sample_rate: u32 = matches.get_one::<String>("sample_rate").unwrap().parse().unwrap();
-    let bit_depth: u16 = matches.get_one::<String>("bit_depth").unwrap().parse().unwrap();
-    let duration: f32 = matches.get_one::<String>("duration").unwrap().parse().unwrap();
-    let frequency: f32 = matches.get_one::<String>("frequency").unwrap().parse().unwrap();
-    let amplitude: f32 = matches.get_one::<String>("amplitude").unwrap().parse().unwrap();
+    let sample_rate: u32 = matches.get_one::<String>("sample_rate").unwrap().parse().expect("Invalid sample rate");
+    let bit_depth: u16 = matches.get_one::<String>("bit_depth").unwrap().parse().expect("Invalid bit depth");
+    let duration: f32 = matches.get_one::<String>("duration").unwrap().parse().expect("Invalid duration");
+    let frequency: f32 = matches.get_one::<String>("frequency").unwrap().parse().expect("Invalid frequency");
+    let amplitude: f32 = matches.get_one::<String>("amplitude").unwrap().parse().expect("Invalid amplitude");
+    let dc_offset: f32 = matches.get_one::<String>("dc_offset").unwrap().parse().expect("Invalid DC offset");
+    let phase_shift: f32 = matches.get_one::<String>("phase_shift").unwrap().parse().expect("Invalid phase shift");
+    let harmonics = parse_harmonics(matches.get_one::<String>("harmonics").unwrap());
+    let noise_type = matches.get_one::<String>("noise_type").unwrap();
+    let noise_volume: f32 = matches.get_one::<String>("noise_volume").unwrap().parse().expect("Invalid noise volume");
+    let low_pass_filter: f32 = matches.get_one::<String>("low_pass_filter").unwrap().parse().expect("Invalid low-pass filter value");
+    let high_pass_filter: f32 = matches.get_one::<String>("high_pass_filter").unwrap().parse().expect("Invalid high-pass filter value");
+    let fade_in: f32 = matches.get_one::<String>("fade_in").unwrap().parse().expect("Invalid fade-in duration");
+    let fade_out: f32 = matches.get_one::<String>("fade_out").unwrap().parse().expect("Invalid fade-out duration");
+    let reverb_amount: f32 = matches.get_one::<String>("reverb_amount").unwrap().parse().expect("Invalid reverb amount");
+    let num_channels: u16 = matches.get_one::<String>("num_channels").unwrap().parse().expect("Invalid number of channels");
+    let channel_volumes = parse_f32_vec(matches.get_one::<String>("channel_volumes").unwrap());
     let output_filename = matches.get_one::<String>("output_filename").unwrap();
 
-    // Tworzenie obiektu WavGenerator na podstawie przekazanych argumentów
+    // Ensure that channel_volumes length matches num_channels
+    if channel_volumes.len() != num_channels as usize {
+        panic!("Number of channel volumes must match the number of channels");
+    }
+
     let generator = WavGenerator {
         waveform_type:    Some(waveform_type.to_string()),
-        sample_rate:      44100,
-        bit_depth:        16,
-        duration:         5.0,
-        frequency:        440.0,
-        amplitude:        0.8,
-        dc_offset:        0.0,        // Default to no DC offset
-        phase_shift:      0.0,        // Default to no phase shift
-        harmonics:        None,       // Default to no harmonics
-        noise_type:       None,       // Default to no noise
-        noise_volume:     0.0,        // Default to no noise volume
-        low_pass_filter:  None,       // Default to no low-pass filter
-        high_pass_filter: None,       // Default to no high-pass filter
-        fade_in:          0.0,        // Default to no fade-in
-        fade_out:         0.0,        // Default to no fade-out
-        reverb_amount:    0.0,        // Default to no reverb
-        num_channels:     1,          // Default to mono channel
-        channel_volumes:  vec![1.0],  // Default to full volume for a single channel
+        sample_rate,
+        bit_depth,
+        duration,
+        frequency,
+        amplitude,
+        dc_offset,
+        phase_shift,
+        harmonics:        Some(harmonics),
+        noise_type:       if noise_type.is_empty() { None } else { Some(noise_type.to_string()) },
+        noise_volume,
+        low_pass_filter:  if low_pass_filter > 0.0 { Some(low_pass_filter) } else { None },
+        high_pass_filter: if high_pass_filter > 0.0 { Some(high_pass_filter) } else { None },
+        fade_in,
+        fade_out,
+        reverb_amount,
+        num_channels,
+        channel_volumes,
     };
 
     generator.save_to_wav(output_filename).expect("Failed to save WAV file");
