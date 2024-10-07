@@ -1,6 +1,6 @@
 dc_offset: dict[str, tuple[float, ...]] = {
-    "none": (0.0, ),
-    "low": (0.5, ),
-    "medium": (0.5, ),
-    "high": (1.0, ),
+    "none": (0.0,),
+    "low": (0.5,),
+    "medium": (0.5,),
+    "high": (1.0,),
 }
