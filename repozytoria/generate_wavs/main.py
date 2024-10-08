@@ -2,7 +2,7 @@ import argparse
 import subprocess
 from itertools import product
 
-from data.sound_scenario import SCENARIOS
+from constants.sound_scenario import SCENARIOS
 
 
 def run_rust_program(executable_path, **kwargs):

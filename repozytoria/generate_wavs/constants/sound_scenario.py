@@ -1,14 +1,14 @@
 from typing import Final
 
-from data.audio_amplitude import AUDIO_AMPLITUDE
-from data.audio_bit_depth import AUDIO_BIT_DEPTH
-from data.audio_dcoffset import AUDIO_DC_OFFSET
-from data.audio_duration import AUDIO_DURATION
-from data.audio_frequencies import TUNING
-from data.audio_noise import AUDIO_NOISE_TYPE, AUDIO_NOISE_VOLUME
-from data.audio_phase_shift import AUDIO_PHASE_SHIFT
-from data.audio_sample_rates import AUDIO_SAMPLE_RATE
-from data.audio_wave_forms import AUDIO_WAVE_FORM
+from constants.audio_amplitude import AUDIO_AMPLITUDE
+from constants.audio_bit_depth import AUDIO_BIT_DEPTH
+from constants.audio_dcoffset import AUDIO_DC_OFFSET
+from constants.audio_duration import AUDIO_DURATION
+from constants.audio_frequencies import TUNING
+from constants.audio_noise import AUDIO_NOISE_TYPE, AUDIO_NOISE_VOLUME
+from constants.audio_phase_shift import AUDIO_PHASE_SHIFT
+from constants.audio_sample_rates import AUDIO_SAMPLE_RATE
+from constants.audio_wave_forms import AUDIO_WAVE_FORM
 
 SCENARIOS: Final[dict[str, dict[str, dict[str, tuple]]], ...] = {
     "Smoke": {
