@@ -1,5 +1,6 @@
-import numpy as np
 from typing import Final
+
+import numpy as np
 
 # E2, A2, D3, G3, B3, E4
 _TUNING_STANDARD_A4: Final[tuple[float, ...]] = (
