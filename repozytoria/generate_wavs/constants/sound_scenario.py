@@ -23,7 +23,8 @@ SCENARIOS: Final[dict[str, dict[str, dict[str, tuple]]], ...] = {
     },
     "Normal": {
         "waveform_type": AUDIO_WAVE_FORM["sine"],
-        "sample_rate": AUDIO_SAMPLE_RATE["cd_audio"] + AUDIO_SAMPLE_RATE["dvd_audio"],
+        "sample_rate": AUDIO_SAMPLE_RATE["cd_audio"]
+        + AUDIO_SAMPLE_RATE["dvd_audio"],
         "bit_depth": AUDIO_BIT_DEPTH["dvd_audio"],
         "duration": AUDIO_DURATION["five_seven"],
         "frequency": TUNING["tuning_semitones"],
@@ -36,14 +37,15 @@ SCENARIOS: Final[dict[str, dict[str, dict[str, tuple]]], ...] = {
     "Stress": {
         "waveform_type": AUDIO_WAVE_FORM["sine"],
         "sample_rate": AUDIO_SAMPLE_RATE["cd_audio"]
-                       + AUDIO_SAMPLE_RATE["dvd_audio"]
-                       + AUDIO_SAMPLE_RATE["blu-ray"],
+        + AUDIO_SAMPLE_RATE["dvd_audio"]
+        + AUDIO_SAMPLE_RATE["blu-ray"],
         "bit_depth": AUDIO_BIT_DEPTH["dvd_audio"],
         "duration": AUDIO_DURATION["long"],
         "frequency": (440.0, 880.0, 1760.0),
         "amplitude": AUDIO_AMPLITUDE["standard"],
         "dc_offset": AUDIO_DC_OFFSET["none"],
-        "phase_shift": AUDIO_PHASE_SHIFT["none"] + AUDIO_PHASE_SHIFT["quarter"],
+        "phase_shift": AUDIO_PHASE_SHIFT["none"]
+        + AUDIO_PHASE_SHIFT["quarter"],
         "noise_type": AUDIO_NOISE_TYPE["white"] + AUDIO_NOISE_TYPE["pink"],
         "noise_volume": AUDIO_NOISE_VOLUME["low"] + AUDIO_NOISE_VOLUME["mid"],
     },
