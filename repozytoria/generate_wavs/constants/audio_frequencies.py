@@ -19,7 +19,7 @@ _TUNING_STANDARD_A4: Final[tuple[float, ...]] = (
 # B3, C4, C#4/Db4, D4, D#4/Eb4, E4, F4, F#4/Gb4, G4, G#4/Ab4, A4, A#4/Bb4
 # E4, F4, F#4/Gb4, G4, G#4/Ab4, A4, A#4/Bb4, B4, C5, C#5/Db5, D5, D#5/Eb5
 _TUNING_SEMITONES: Final[tuple[float, ...]] = tuple(
-    np.round(freq * (2 ** (n / 12)), 2)
+    np.round(freq * (2 ** (n / 12)), decimals=2)
     for freq in _TUNING_STANDARD_A4
     for n in range(12)
 )
