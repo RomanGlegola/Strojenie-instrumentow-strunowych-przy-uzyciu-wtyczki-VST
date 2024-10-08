@@ -1,3 +1,5 @@
+from typing import Final
+
 from data.audio_amplitude import amplitude
 from data.audio_bit_depth import bit_depth
 from data.audio_dcoffset import dc_offset
@@ -8,7 +10,7 @@ from data.audio_phase_shift import phase_shift
 from data.audio_sample_rates import sample_rate
 from data.audio_wave_forms import wave_form
 
-scenarios: dict = {
+scenarios: Final[dict[str, dict[str, dict[str, tuple]]], ...] = {
     "Smoke": {
         "waveform_type": wave_form["sine"],
         "sample_rate": sample_rate["cd_audio"],

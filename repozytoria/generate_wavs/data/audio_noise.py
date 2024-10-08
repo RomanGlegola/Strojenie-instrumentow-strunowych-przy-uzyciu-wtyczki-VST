@@ -1,10 +1,12 @@
-noise_type: dict[str, tuple[str, ...]] = {
+from typing import Final
+
+noise_type: Final[dict[str, tuple[str, ...]]] = {
     "none": ("",),
     "white": ("white",),
     "pink": ("pink",),
 }
 
-noise_volume: dict[str, tuple[float, ...]] = {
+noise_volume: Final[dict[str, tuple[float, ...]]] = {
     "none": (0.0,),
     "low": (0.1,),
     "mid": (0.3,),

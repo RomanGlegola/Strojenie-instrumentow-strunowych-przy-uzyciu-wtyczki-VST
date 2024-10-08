@@ -1,6 +1,6 @@
-# telephone
+from typing import Final
 
-bit_depth: dict[str, tuple[int, ...]] = {
+bit_depth: Final[dict[str, tuple[int, ...]]] = {
     "telephone": (8,),
     "broadcasting": (
         10,

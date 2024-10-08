@@ -1,4 +1,6 @@
-duration: dict[str, tuple[float, ...]] = {
+from typing import Final
+
+duration: Final[dict[str, tuple[float, ...]]] = {
     "short": (5.0,),
     "five_seven": (
         5.0,

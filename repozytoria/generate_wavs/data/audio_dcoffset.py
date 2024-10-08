@@ -1,4 +1,6 @@
-dc_offset: dict[str, tuple[float, ...]] = {
+from typing import Final
+
+dc_offset: Final[dict[str, tuple[float, ...]]] = {
     "none": (0.0,),
     "low": (0.5,),
     "medium": (0.5,),

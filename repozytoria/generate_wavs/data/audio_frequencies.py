@@ -1,7 +1,8 @@
 import numpy as np
+from typing import Final
 
 # E2, A2, D3, G3, B3, E4
-_tuning_standard_a4: tuple[float, ...] = (
+_tuning_standard_a4: Final[tuple[float, ...]] = (
     82.41,
     110.0,
     146.83,
@@ -16,13 +17,13 @@ _tuning_standard_a4: tuple[float, ...] = (
 # G3, G#3/Ab3, A3, A#3/Bb3, B3, C4, C#4/Db4, D4, D#4/Eb4, E4, F4, F#4/Gb4
 # B3, C4, C#4/Db4, D4, D#4/Eb4, E4, F4, F#4/Gb4, G4, G#4/Ab4, A4, A#4/Bb4
 # E4, F4, F#4/Gb4, G4, G#4/Ab4, A4, A#4/Bb4, B4, C5, C#5/Db5, D5, D#5/Eb5
-_tuning_semitones: tuple[float, ...] = tuple(
+_tuning_semitones: Final[tuple[float, ...]] = tuple(
     np.round(freq * (2 ** (n / 12)), 2)
     for freq in _tuning_standard_a4
     for n in range(12)
 )
 
-tuning: dict[str, tuple[float, ...]] = {
+tuning: Final[dict[str, tuple[float, ...]]] = {
     "tuning_standard": _tuning_standard_a4,
     "tuning_semitones": _tuning_semitones,
 }
