@@ -5,22 +5,23 @@ It uses the `numpy` library to calculate a sequence of semitone frequencies
 based on the standard guitar tuning frequencies (E2, A2, D3, G3, B3, E4).
 
 The module provides:
-- _TUNING_STANDARD_A4:
-    A tuple containing the standard frequencies for a 6-string guitar.
-- _TUNING_SEMITONES:
-    A tuple containing frequencies for 12 semitone intervals starting from
+    - **_TUNING_STANDARD_A4**:
+        A tuple containing the standard frequencies for a 6-string guitar.
+    - **_TUNING_SEMITONES**:
+        A tuple containing frequencies for 12 semitone intervals starting from
         each standard tuning.
-- AUDIO_TUNING:
-    A dictionary that maps tuning names to their corresponding
+    - **AUDIO_TUNING**:
+        A dictionary that maps tuning names to their corresponding
         frequency tuples.
 
-Constants:
-    - _TUNING_STANDARD_A4:
-        Base frequencies for standard guitar tuning.
-    - _TUNING_SEMITONES:
-        Frequencies for the semitone intervals based on the standard tuning.
-    - AUDIO_TUNING:
-        Dictionary with named tuning sets.
+Constants
+---------
+- _TUNING_STANDARD_A4:
+    Base frequencies for standard guitar tuning.
+- _TUNING_SEMITONES:
+    Frequencies for the semitone intervals based on the standard tuning.
+- AUDIO_TUNING:
+    Dictionary with named tuning sets.
 """
 
 from typing import Final

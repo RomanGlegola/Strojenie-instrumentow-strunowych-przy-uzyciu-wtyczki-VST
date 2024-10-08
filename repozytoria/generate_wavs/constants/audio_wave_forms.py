@@ -6,10 +6,12 @@ characteristics of the sound, such as its timbre and harmonic content. These
 predefined waveform types are commonly used in audio synthesis and signal
 processing.
 
-Constants:
-    - AUDIO_WAVE_FORM: A dictionary where keys represent waveform names
-        ("sine", "square", "triangle"), and values are tuples containing the
-        corresponding waveform type as strings.
+Constants
+---------
+AUDIO_WAVE_FORM : dict[str, tuple[str, ...]]
+    A dictionary where keys represent waveform names ("sine", "square",
+    "triangle"), and values are tuples containing the corresponding
+    waveform type as strings.
 """
 
 from typing import Final

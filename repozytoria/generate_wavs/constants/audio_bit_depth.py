@@ -7,12 +7,13 @@ directly influencing the dynamic range and precision of the recorded audio.
 Different bit depths are used for various audio formats, ranging from
 low-quality telephone audio to high-quality digital audio workstations (DAWs).
 
-Constants:
-    - AUDIO_BIT_DEPTH:
-        A dictionary where keys represent different application categories (
-            "telephone", "broadcasting", "video_tape", "cd_audio", "dvd_audio",
-            "daw"), and values are tuples containing the corresponding bit
-            depths in integer format.
+Constants
+---------
+AUDIO_BIT_DEPTH : dict[str, tuple[int, ...]]
+    A dictionary where keys represent different application categories
+    ("telephone", "broadcasting", "video_tape", "cd_audio", "dvd_audio",
+    "daw"), and values are tuples containing the corresponding bit depths
+    in integer format.
 """
 
 from typing import Final

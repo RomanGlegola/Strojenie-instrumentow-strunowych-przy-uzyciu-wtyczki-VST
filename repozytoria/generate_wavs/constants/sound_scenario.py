@@ -7,29 +7,32 @@ sample rate, bit depth, duration, frequency, amplitude, DC offset,
 phase shift, and noise settings. The scenarios are designed to represent
 various audio conditions, ranging from basic to more complex stress testing.
 
-Imported Constants:
-    - AUDIO_AMPLITUDE: Different amplitude levels for audio signals.
-    - AUDIO_BIT_DEPTH: Bit depths for various media standards.
-    - AUDIO_DC_OFFSET: DC offset levels to introduce signal bias.
-    - AUDIO_DURATION: Predefined duration categories for audio samples.
-    - AUDIO_TUNING: Standard guitar tuning frequencies and their semitones.
-    - AUDIO_NOISE_TYPE: Types of audio noise (e.g., "white", "pink").
-    - AUDIO_NOISE_VOLUME: Volume levels for different types of noise.
-    - AUDIO_PHASE_SHIFT: Phase shift angles to adjust the signal's phase.
-    - AUDIO_SAMPLE_RATE: Sample rates for TV, CD, DVD, and Blu-ray audio.
-    - AUDIO_WAVE_FORM: Types of audio waveforms used for signal generation.
+Imported Constants
+------------------
+- AUDIO_AMPLITUDE : Different amplitude levels for audio signals.
+- AUDIO_BIT_DEPTH : Bit depths for various media standards.
+- AUDIO_DC_OFFSET : DC offset levels to introduce signal bias.
+- AUDIO_DURATION : Predefined duration categories for audio samples.
+- AUDIO_TUNING : Standard guitar tuning frequencies and their semitones.
+- AUDIO_NOISE_TYPE : Types of audio noise (e.g., "white", "pink").
+- AUDIO_NOISE_VOLUME : Volume levels for different types of noise.
+- AUDIO_PHASE_SHIFT : Phase shift angles to adjust the signal's phase.
+- AUDIO_SAMPLE_RATE : Sample rates for TV, CD, DVD, and Blu-ray audio.
+- AUDIO_WAVE_FORM : Types of audio waveforms used for signal generation.
 
-Constants:
-    - SCENARIOS: A dictionary containing predefined audio scenarios:
-        - "Smoke":
-            Basic configuration with a single sine waveform and standard
-                CD audio sample rate.
-        - "Normal":
-            Standard configuration with multiple sample rates,
-                semitone frequencies, and added noise.
-        - "Stress":
-            Complex scenario with high-frequency signals, multiple
-                phase shifts, and high noise levels.
+Constants
+---------
+SCENARIOS : dict[str, dict[str, dict[str, tuple]]]
+    A dictionary containing predefined audio scenarios:
+    - "Smoke":
+        Basic configuration with a single sine waveform and standard
+        CD audio sample rate.
+    - "Normal":
+        Standard configuration with multiple sample rates,
+        semitone frequencies, and added noise.
+    - "Stress":
+        Complex scenario with high-frequency signals, multiple
+        phase shifts, and high noise levels.
 """
 
 from typing import Final

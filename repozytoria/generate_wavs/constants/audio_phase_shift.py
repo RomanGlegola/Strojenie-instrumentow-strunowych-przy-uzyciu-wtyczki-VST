@@ -6,11 +6,12 @@ the alignment of the waveform without changing its frequency or amplitude.
 This can be useful in various audio processing applications, such as signal
 mixing or phase cancellation.
 
-Constants:
-    - AUDIO_PHASE_SHIFT:
-        A dictionary where keys represent phase shift categories
-            ("none", "quarter", "half"), and values are tuples containing the
-            corresponding phase shift angles in degrees (as float values).
+Constants
+---------
+AUDIO_PHASE_SHIFT : dict[str, tuple[float, ...]]
+    A dictionary where keys represent phase shift categories ("none",
+    "quarter", "half"), and values are tuples containing the corresponding
+    phase shift angles in degrees (as float values).
 """
 
 from typing import Final

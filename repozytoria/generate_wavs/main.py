@@ -7,27 +7,23 @@ and executes the Rust program with all combinations of settings defined for
 the selected scenario. It uses the `argparse` module for command-line argument
 parsing and the `subprocess` module to execute the Rust program.
 
-Functions:
-    -run_rust_program(executable_path: str, **kwargs: Any) -> None:
-        Executes the Rust program with the provided executable path and
-            keyword arguments representing the audio settings.
+Functions
+---------
+- :func:`run_rust_program`: Executes the Rust program with the provided
+  executable path and keyword arguments representing the audio settings.
+- :func:`execute_scenario`: Generates all combinations of the provided scenario
+  settings and runs the Rust program for each combination.
+- :func:`main`: The entry point of the script, which sets up argument parsing
+  and invokes the appropriate functions to run the scenario.
 
-    -execute_scenario(executable_path: str, settings: Dict[str, list]) -> None:
-        Generates all combinations of the provided scenario settings and runs
-            the Rust program for each combination.
-
-    -main() -> None:
-        The entry point of the script, which sets up argument parsing and
-            invokes the appropriate functions to run the scenario.
-
-Command-line Arguments:
-    -scenario:
-        The name of the audio scenario to run, chosen from the available
-            scenarios defined in the SCENARIOS constant.
-
-    -executable_path:
-        The path to the compiled Rust executable that will be executed with
-            the specified scenario settings.
+Parameters
+----------
+:arg str scenario:
+    The name of the audio scenario to run, chosen from the available scenarios
+    defined in the `SCENARIOS` constant.
+:arg str executable_path:
+    The path to the compiled Rust executable that will be executed with the
+    specified scenario settings.
 """
 
 import argparse
@@ -39,7 +35,22 @@ from constants.sound_scenario import SCENARIOS
 
 
 def run_rust_program(executable_path: str, **kwargs: Any) -> None:
-    """Run the Rust executable with the given arguments."""
+    """
+    Execute a Rust program with specified command-line arguments.
+
+    This function constructs a command to run a Rust executable located at the
+    given path, appending the provided keyword arguments as command-line
+    options.
+
+    :param str executable_path: The file path to the compiled Rust executable.
+    :param **kwargs:
+        Arbitrary keyword arguments representing command-line options
+            and their values. Each key will be prefixed with '--' when
+            passed to the Rust program.
+    :raises subprocess.CalledProcessError:
+        If the Rust program exits with a non-zero status.
+    :rtype: None
+    """
     args = [executable_path]
 
     for key, value in kwargs.items():
@@ -49,7 +60,25 @@ def run_rust_program(executable_path: str, **kwargs: Any) -> None:
 
 
 def execute_scenario(executable_path: str, settings: Dict[str, list]) -> None:
-    """Execute the Rust program with different settings combinations."""
+    """
+    Execute the Rust program with all combinations of settings for a specified
+    scenario.
+
+    This function generates all possible combinations of the provided settings
+    and runs the Rust program for each combination. The settings are unpacked
+    from a dictionary, and each combination is passed as keyword arguments to
+    the run_rust_program function.
+
+    :param str executable_path:
+        The file path to the compiled Rust executable.
+    :param Dict[str, list] settings:
+        A dictionary where keys represent setting names and values are lists
+        of possible values for each setting.
+    :raises ValueError:
+        If the settings dictionary is empty or if there are no values for
+            any key.
+    :rtype: None
+    """
     keys, values = zip(*settings.items())
     for combination in product(*values):
         combination_dict = dict(zip(keys, combination))
@@ -57,7 +86,26 @@ def execute_scenario(executable_path: str, settings: Dict[str, list]) -> None:
 
 
 def main() -> None:
-    """Main entry point for the script."""
+    """
+    Entry point for the script to run a Rust program with specified audio
+    scenarios.
+
+    This function sets up the command-line argument parser, defining required
+    arguments for the scenario and the path to the Rust executable. It
+    retrieves the selected scenario's settings and invokes the execute_scenario
+    function to run the Rust program with the appropriate configurations.
+
+    :arg scenario:
+        The name of the audio scenario to be executed, chosen from the
+            available scenarios defined in the SCENARIOS constant.
+    :arg executable_path:
+        The path to the compiled Rust executable that will be run with the
+            selected scenario settings.
+
+    :raises SystemExit:
+        If the provided arguments are invalid or if there are issues during
+            the execution of the Rust program.
+    """
     parser = argparse.ArgumentParser(
         description="Run the Rust program with different scenarios"
     )
