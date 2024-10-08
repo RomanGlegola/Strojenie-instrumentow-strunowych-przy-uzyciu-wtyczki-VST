@@ -1,3 +1,20 @@
+[tool.poetry]
+name = "generate_wavs"
+version = "0.1.0"
+description = "Generates WAV files for audio processing."
+authors = ["RomanGlegola <romanglegola@gmail.com>"]
+readme = "README.md"
+keywords = ["audio", "WAV", "generation"]
+
+[tool.poetry.dependencies]
+python = "^3.13.0"
+numpy = "^2.1.2"
+
+[tool.poetry.dev-dependencies]
+isort = "^5.13.2"
+black = "^24.10.0"
+sphinx = "^8.0.2"
+
 [tool.isort]
 profile = "black"
 line_length = 79
@@ -11,19 +28,20 @@ target-version = ["py313"]
 preview = true
 skip-string-normalization = true
 
-[tool.poetry]
-name = "generate_wavs"
+[tool.sphinx]
+project = "generate_wavs"
+author = "Roman Glegola"
 version = "0.1.0"
-description = ""
-authors = ["RomanGlegola <romanglegola@gmail.com>"]
-readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.13"
-isort = "^5.13.2"
-black = "^24.10.0"
-numpy = "^2.1.2"
-
+release = "0.1.0"
+language = "en"
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.napoleon",
+    "sphinx_rtd_theme",
+]
+html_theme = "sphinx_rtd_theme"
+html_static_path = ["_static"]
 
 [build-system]
 requires = ["poetry-core"]
