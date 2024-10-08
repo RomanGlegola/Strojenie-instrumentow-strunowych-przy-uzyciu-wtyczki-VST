@@ -1,26 +1,26 @@
 from typing import Final
 
-_tv_radio_voip: Final[tuple[int, ...]] = (
+_TV_RADIO_VOIP: Final[tuple[int, ...]] = (
     8000,
     16000,
     32000,
 )
 
-_cd_audio: Final[tuple[int, ...]] = (
+_CD_AUDIO: Final[tuple[int, ...]] = (
     22050,
     44100,
 )
 
-_dvd_audio: Final[tuple[int, ...]] = (
+_DVD_AUDIO: Final[tuple[int, ...]] = (
     48000,
     96000,
 )
 
-_blu_ray_audio: Final[tuple[int, ...]] = (192000,)
+_BLU_RAY_AUDIO: Final[tuple[int, ...]] = (192000,)
 
-sample_rate: Final[dict[str, tuple[int, ...]]] = {
-    "tv_audio": _tv_radio_voip,
-    "cd_audio": _cd_audio,
-    "dvd_audio": _dvd_audio,
-    "blu-ray": _blu_ray_audio,
+AUDIO_SAMPLE_RATE: Final[dict[str, tuple[int, ...]]] = {
+    "tv_audio": _TV_RADIO_VOIP,
+    "cd_audio": _CD_AUDIO,
+    "dvd_audio": _DVD_AUDIO,
+    "blu-ray": _BLU_RAY_AUDIO,
 }

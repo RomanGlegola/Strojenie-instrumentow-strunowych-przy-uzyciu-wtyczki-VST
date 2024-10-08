@@ -1,6 +1,6 @@
 from typing import Final
 
-dc_offset: Final[dict[str, tuple[float, ...]]] = {
+AUDIO_DC_OFFSET: Final[dict[str, tuple[float, ...]]] = {
     "none": (0.0,),
     "low": (0.5,),
     "medium": (0.5,),

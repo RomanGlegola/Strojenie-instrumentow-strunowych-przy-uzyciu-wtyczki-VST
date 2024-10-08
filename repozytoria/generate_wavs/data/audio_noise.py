@@ -1,12 +1,12 @@
 from typing import Final
 
-noise_type: Final[dict[str, tuple[str, ...]]] = {
+AUDIO_NOISE_TYPE: Final[dict[str, tuple[str, ...]]] = {
     "none": ("",),
     "white": ("white",),
     "pink": ("pink",),
 }
 
-noise_volume: Final[dict[str, tuple[float, ...]]] = {
+AUDIO_NOISE_VOLUME: Final[dict[str, tuple[float, ...]]] = {
     "none": (0.0,),
     "low": (0.1,),
     "mid": (0.3,),

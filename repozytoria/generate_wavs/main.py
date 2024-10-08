@@ -2,7 +2,7 @@ import argparse
 import subprocess
 from itertools import product
 
-from data.sound_scenario import scenarios
+from data.sound_scenario import SCENARIOS
 
 
 def run_rust_program(executable_path, **kwargs):
@@ -26,14 +26,14 @@ def main():
         description="Run the Rust program with different scenarios"
     )
     parser.add_argument(
-        "scenario", choices=scenarios.keys(), help="Choose a scenario"
+        "scenario", choices=SCENARIOS.keys(), help="Choose a scenario"
     )
     parser.add_argument(
         "executable_path", help="Path to the compiled Rust executable"
     )
     args = parser.parse_args()
 
-    scenario_settings = scenarios[args.scenario]
+    scenario_settings = SCENARIOS[args.scenario]
     execute_scenario(args.executable_path, scenario_settings)
 
 

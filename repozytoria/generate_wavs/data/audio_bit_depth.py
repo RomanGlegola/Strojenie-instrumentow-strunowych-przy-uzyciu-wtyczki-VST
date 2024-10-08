@@ -1,6 +1,6 @@
 from typing import Final
 
-bit_depth: Final[dict[str, tuple[int, ...]]] = {
+AUDIO_BIT_DEPTH: Final[dict[str, tuple[int, ...]]] = {
     "telephone": (8,),
     "broadcasting": (
         10,

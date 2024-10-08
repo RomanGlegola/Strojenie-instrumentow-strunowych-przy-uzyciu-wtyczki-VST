@@ -1,50 +1,50 @@
 from typing import Final
 
-from data.audio_amplitude import amplitude
-from data.audio_bit_depth import bit_depth
-from data.audio_dcoffset import dc_offset
-from data.audio_duration import duration
-from data.audio_frequencies import tuning
-from data.audio_noise import noise_type, noise_volume
-from data.audio_phase_shift import phase_shift
-from data.audio_sample_rates import sample_rate
-from data.audio_wave_forms import wave_form
+from data.audio_amplitude import AUDIO_AMPLITUDE
+from data.audio_bit_depth import AUDIO_BIT_DEPTH
+from data.audio_dcoffset import AUDIO_DC_OFFSET
+from data.audio_duration import AUDIO_DURATION
+from data.audio_frequencies import TUNING
+from data.audio_noise import AUDIO_NOISE_TYPE, AUDIO_NOISE_VOLUME
+from data.audio_phase_shift import AUDIO_PHASE_SHIFT
+from data.audio_sample_rates import AUDIO_SAMPLE_RATE
+from data.audio_wave_forms import AUDIO_WAVE_FORM
 
-scenarios: Final[dict[str, dict[str, dict[str, tuple]]], ...] = {
+SCENARIOS: Final[dict[str, dict[str, dict[str, tuple]]], ...] = {
     "Smoke": {
-        "waveform_type": wave_form["sine"],
-        "sample_rate": sample_rate["cd_audio"],
-        "bit_depth": bit_depth["dvd_audio"],
-        "duration": duration["short"],
-        "frequency": tuning["tuning_standard"],
-        "amplitude": amplitude["standard"],
-        "dc_offset": dc_offset["none"],
-        "phase_shift": phase_shift["none"],
+        "waveform_type": AUDIO_WAVE_FORM["sine"],
+        "sample_rate": AUDIO_SAMPLE_RATE["cd_audio"],
+        "bit_depth": AUDIO_BIT_DEPTH["dvd_audio"],
+        "duration": AUDIO_DURATION["short"],
+        "frequency": TUNING["tuning_standard"],
+        "amplitude": AUDIO_AMPLITUDE["standard"],
+        "dc_offset": AUDIO_DC_OFFSET["none"],
+        "phase_shift": AUDIO_PHASE_SHIFT["none"],
     },
     "Normal": {
-        "waveform_type": wave_form["sine"],
-        "sample_rate": sample_rate["cd_audio"] + sample_rate["dvd_audio"],
-        "bit_depth": bit_depth["dvd_audio"],
-        "duration": duration["five_seven"],
-        "frequency": tuning["tuning_semitones"],
-        "amplitude": amplitude["standard"],
-        "dc_offset": dc_offset["none"],
-        "phase_shift": phase_shift["none"],
-        "noise_type": noise_type["none"] + noise_type["pink"],
-        "noise_volume": noise_volume["none"] + noise_volume["low"],
+        "waveform_type": AUDIO_WAVE_FORM["sine"],
+        "sample_rate": AUDIO_SAMPLE_RATE["cd_audio"] + AUDIO_SAMPLE_RATE["dvd_audio"],
+        "bit_depth": AUDIO_BIT_DEPTH["dvd_audio"],
+        "duration": AUDIO_DURATION["five_seven"],
+        "frequency": TUNING["tuning_semitones"],
+        "amplitude": AUDIO_AMPLITUDE["standard"],
+        "dc_offset": AUDIO_DC_OFFSET["none"],
+        "phase_shift": AUDIO_PHASE_SHIFT["none"],
+        "noise_type": AUDIO_NOISE_TYPE["none"] + AUDIO_NOISE_TYPE["pink"],
+        "noise_volume": AUDIO_NOISE_VOLUME["none"] + AUDIO_NOISE_VOLUME["low"],
     },
     "Stress": {
-        "waveform_type": wave_form["sine"],
-        "sample_rate": sample_rate["cd_audio"]
-        + sample_rate["dvd_audio"]
-        + sample_rate["blu-ray"],
-        "bit_depth": bit_depth["dvd_audio"],
-        "duration": duration["long"],
+        "waveform_type": AUDIO_WAVE_FORM["sine"],
+        "sample_rate": AUDIO_SAMPLE_RATE["cd_audio"]
+                       + AUDIO_SAMPLE_RATE["dvd_audio"]
+                       + AUDIO_SAMPLE_RATE["blu-ray"],
+        "bit_depth": AUDIO_BIT_DEPTH["dvd_audio"],
+        "duration": AUDIO_DURATION["long"],
         "frequency": (440.0, 880.0, 1760.0),
-        "amplitude": amplitude["standard"],
-        "dc_offset": dc_offset["none"],
-        "phase_shift": phase_shift["none"] + phase_shift["quarter"],
-        "noise_type": noise_type["white"] + noise_type["pink"],
-        "noise_volume": noise_volume["low"] + noise_volume["mid"],
+        "amplitude": AUDIO_AMPLITUDE["standard"],
+        "dc_offset": AUDIO_DC_OFFSET["none"],
+        "phase_shift": AUDIO_PHASE_SHIFT["none"] + AUDIO_PHASE_SHIFT["quarter"],
+        "noise_type": AUDIO_NOISE_TYPE["white"] + AUDIO_NOISE_TYPE["pink"],
+        "noise_volume": AUDIO_NOISE_VOLUME["low"] + AUDIO_NOISE_VOLUME["mid"],
     },
 }
