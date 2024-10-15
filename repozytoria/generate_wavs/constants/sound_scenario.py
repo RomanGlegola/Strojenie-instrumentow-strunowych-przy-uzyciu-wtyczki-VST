@@ -35,7 +35,7 @@ SCENARIOS : dict[str, dict[str, dict[str, tuple]]]
         phase shifts, and high noise levels.
 """
 
-from typing import Final
+from typing import Final, Union
 
 from constants.audio_amplitude import AUDIO_AMPLITUDE
 from constants.audio_bit_depth import AUDIO_BIT_DEPTH
@@ -47,7 +47,7 @@ from constants.audio_phase_shift import AUDIO_PHASE_SHIFT
 from constants.audio_sample_rates import AUDIO_SAMPLE_RATE
 from constants.audio_wave_forms import AUDIO_WAVE_FORM
 
-SCENARIOS: Final[dict[str, dict[str, dict[str, tuple]]], ...] = {
+SCENARIOS: Final[dict[str, dict[str, tuple[Union[str, int, float], ...]]]] = {
     "Smoke": {
         "waveform_type": AUDIO_WAVE_FORM["sine"],
         "sample_rate": AUDIO_SAMPLE_RATE["cd_audio"],

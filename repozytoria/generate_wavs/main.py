@@ -29,7 +29,7 @@ Parameters
 import argparse
 import subprocess
 from itertools import product
-from typing import Any, Dict
+from typing import Any, Union
 
 from constants.sound_scenario import SCENARIOS
 
@@ -51,15 +51,18 @@ def run_rust_program(executable_path: str, **kwargs: Any) -> None:
         If the Rust program exits with a non-zero status.
     :rtype: None
     """
-    args = [executable_path]
+    args: list[str] = [executable_path]
 
     for key, value in kwargs.items():
-        args.append(__object=f"--{key}")
-        args.append(__object=str(value))
+        args.append(f"--{key}")
+        args.append(str(value))
     subprocess.run(args=args, check=True)
 
 
-def execute_scenario(executable_path: str, settings: Dict[str, list]) -> None:
+def execute_scenario(
+    executable_path: str,
+    settings: dict[str, tuple[Union[str, int, float], ...]],
+) -> None:
     """
     Execute the Rust program with all combinations of settings for a specified
     scenario.
@@ -106,7 +109,7 @@ def main() -> None:
         If the provided arguments are invalid or if there are issues during
             the execution of the Rust program.
     """
-    parser = argparse.ArgumentParser(
+    parser: argparse.ArgumentParser = argparse.ArgumentParser(
         description="Run the Rust program with different scenarios"
     )
     parser.add_argument(
@@ -115,9 +118,11 @@ def main() -> None:
     parser.add_argument(
         "executable_path", help="Path to the compiled Rust executable"
     )
-    args = parser.parse_args()
+    args: argparse.Namespace = parser.parse_args()
 
-    scenario_settings = SCENARIOS[args.scenario]
+    scenario_settings: dict[str, tuple[Union[str, int, float], ...]] = (
+        SCENARIOS[args.scenario]
+    )
     execute_scenario(
         executable_path=args.executable_path, settings=scenario_settings
     )

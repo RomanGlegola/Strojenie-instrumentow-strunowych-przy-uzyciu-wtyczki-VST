@@ -27,7 +27,6 @@ AUDIO_SAMPLE_RATE : dict[str, tuple[int, ...]]
     "dvd_audio", "blu-ray") to their corresponding sample rate tuples.
 """
 
-
 from typing import Final
 
 _TV_RADIO_VOIP: Final[tuple[int, ...]] = (
