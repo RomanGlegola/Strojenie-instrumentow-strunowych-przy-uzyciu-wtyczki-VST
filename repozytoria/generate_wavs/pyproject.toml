@@ -14,6 +14,7 @@ numpy = "^2.1.2"
 isort = "^5.13.2"
 black = "^24.10.0"
 sphinx = "^8.0.2"
+mypy = "^1.12.0"
 
 [tool.isort]
 profile = "black"
@@ -42,6 +43,12 @@ extensions = [
 ]
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
+
+[tool.mypy]
+files = "generate_wavs"
+ignore_missing_imports = true
+strict = true
+explicit_package_bases = true
 
 [build-system]
 requires = ["poetry-core"]
